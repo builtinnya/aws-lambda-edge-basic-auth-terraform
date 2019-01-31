@@ -22,13 +22,14 @@ exports.handler = (event, context, callback) => {
         'www-authenticate': [
           {
             key: 'WWW-Authenticate',
-            value:'Basic',
+            value: 'Basic',
           }
         ]
       },
     }
 
     callback(null, response)
+    return
   }
 
   // Continue request processing if authentication passed
