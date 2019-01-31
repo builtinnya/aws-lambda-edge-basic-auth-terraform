@@ -19,10 +19,10 @@ This is a [Terraform module](https://www.terraform.io/docs/modules/index.html). 
 #}
 
 module "basic_auth" {
-  source                 = "github.com/builtinnya/aws-lambda-edge-basic-auth-terraform/module"
+  source = "github.com/builtinnya/aws-lambda-edge-basic-auth-terraform/module"
 
   basic_auth_credentials = {
-    user = "your-username"
+    user     = "your-username"
     password = "your-password"
   }
 
