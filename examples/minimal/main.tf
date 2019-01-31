@@ -36,23 +36,48 @@ module "basic_auth" {
 resource "aws_s3_bucket" "test" {
   bucket = "${var.s3_bucket_name}"
   acl    = "private"
+
+  policy = <<EOF
+{
+  "Version":"2012-10-17",
+  "Id":"PolicyForCloudFrontPrivateContent",
+  "Statement":[
+    {
+      "Sid": "Grant a CloudFront Origin Identity access to support private content",
+      "Effect": "Allow",
+      "Principal": {
+        "CanonicalUser": "${aws_cloudfront_origin_access_identity.test.s3_canonical_user_id}"
+      },
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name}/*"
+    }
+  ]
+}
+EOF
 }
 
 resource "aws_s3_bucket_object" "test" {
-  bucket = "${aws_s3_bucket.test.id}"
-  key    = "index.html"
-  source = "index.html"
-  etag   = "${md5(file("index.html"))}"
+  bucket       = "${aws_s3_bucket.test.id}"
+  key          = "index.html"
+  source       = "index.html"
+  content_type = "text/html"
+  etag         = "${md5(file("index.html"))}"
 }
 
 ###
 # CloudFront
 #
 
+resource "aws_cloudfront_origin_access_identity" "test" {}
+
 resource "aws_cloudfront_distribution" "test" {
   origin {
     domain_name = "${aws_s3_bucket.test.bucket_regional_domain_name}"
     origin_id   = "S3-${aws_s3_bucket.test.id}"
+
+    s3_origin_config {
+      origin_access_identity = "${aws_cloudfront_origin_access_identity.test.cloudfront_access_identity_path}"
+    }
   }
 
   enabled             = true
