@@ -48,7 +48,7 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 }
 ```
 
-## Arguments and Outputs
+## Module Inputs and Outputs
 
 ## Inputs
 
