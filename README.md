@@ -48,8 +48,6 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 }
 ```
 
-## Module Inputs and Outputs
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
