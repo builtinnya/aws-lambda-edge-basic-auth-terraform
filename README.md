@@ -61,6 +61,65 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 |------|-------------|
 | lambda\_arn | Lambda function ARN with version |
 
+## Examples
+
+### Minimal
+
+The minimal example is located at [examples/minimal](examples/minimal) . It creates an S3 bucket, an S3 object ([`index.html`](examples/minimal/index.html)), and a CloudFront distribution protected with Basic Authentication, enough to confirm that this module protects resources with Basic Authentication.
+
+#### Building Resources
+
+1. Move to [examples/minimal](examples/minimal) directory.
+
+    ```bash
+    $ cd examples/minimal
+    ```
+
+2. Copy `terraform.tfvars.example` to `terraform.tfvars` and fill in the values.
+
+    ```bash
+    $ cp terraform.tfvars.example terraform.tfvars
+    $ # Edit terraform.tfvars with your favorite editor.
+    ```
+
+    ```hcl
+    aws_access_key = "<your AWS access key>"
+    aws_secret_key = "<your AWS secret key>"
+    region = "<region>"
+    s3_bucket_name = "<S3 bucket name to create>"
+
+    basic_auth_credentials = {
+      "user" = "<Basic Auth Username>"
+      "password" = "<Basic Auth Password>"
+    }
+    ```
+
+3. Execute the following commands to build resources using Terraform.
+
+    ```bash
+    $ terraform init
+    $ terraform plan
+    $ terraform apply
+    ```
+
+If building succeeded, it will show messages like the following:
+
+```bash
+Outputs:
+
+url = https://<some-random-string>.cloudfront.net
+```
+
+You can access to the URL and check if Basic Authentication works once the CloudFront is ready (it takes some time to be ready.)
+
+#### Destroying Resources
+
+To destroy AWS resources created by the above steps, execute the following commands in [examples/minimal](examples/minimal) directory.
+
+```bash
+$ terraform destroy
+```
+
 # License
 
 Copyright © 2019 Naoto Yokoyama
