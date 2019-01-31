@@ -39,19 +39,19 @@ resource "aws_s3_bucket" "test" {
 
   policy = <<EOF
 {
-  "Version":"2012-10-17",
-  "Id":"PolicyForCloudFrontPrivateContent",
-  "Statement":[
+  "Id": "PolicyForCloudFrontPrivateContent",
+  "Statement": [
     {
-      "Sid": "Grant a CloudFront Origin Identity access to support private content",
+      "Action": "s3:GetObject",
       "Effect": "Allow",
       "Principal": {
-        "CanonicalUser": "${aws_cloudfront_origin_access_identity.test.s3_canonical_user_id}"
+        "AWS": "${aws_cloudfront_origin_access_identity.test.iam_arn}"
       },
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::${var.s3_bucket_name}/*"
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name}/*",
+      "Sid": "Grant a CloudFront Origin Identity access to support private content"
     }
-  ]
+  ],
+  "Version": "2012-10-17"
 }
 EOF
 }
