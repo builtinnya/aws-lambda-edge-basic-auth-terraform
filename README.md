@@ -1,5 +1,7 @@
 # aws-lambda-edge-basic-auth-terraform
 
+![Basic Authenticate CloudFront with Lambda@Edge](diagrams/aws-cloudfront-lambda-edge-basic-auth.png)
+
 This is a [Terraform](https://www.terraform.io/) module that creates [AWS Lambda@Edge](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-at-the-edge.html) resources to protect [CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html) distributions with [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
 
 The purpose of this module is to make it no-brainer to set up AWS resources required to perform Basic Authentication with AWS Lambda@Edge. If you don't want to take care of tedious jobs such as IAM role setup, this is a right module to go with.
@@ -162,6 +164,10 @@ It shows markdown table of inputs and outputs, same as included in this README.
 ### Testing
 
 Tests for the handler is located at [`test/`](test/) directory and executed in `build.sh`.
+
+### Diagrams
+
+Diagrams are located at [`diagrams/`](diagrams/) directory. You can import and edit XML files visually using [draw.io](https://www.draw.io/).
 
 # License
 
