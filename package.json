@@ -25,7 +25,6 @@
     "gulp-cli": "^2.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-uglify": "^3.0.1",
-    "gulp-zip": "^4.2.0",
     "rimraf": "^2.6.3"
   }
 }

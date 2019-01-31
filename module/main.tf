@@ -54,27 +54,28 @@ EOF
 # Lambda functions
 #
 
+data "template_file" "basic_auth_function" {
+  template = "${file("${path.module}/functions/basic-auth.js")}"
+  vars = "${var.basic_auth_credentials}"
+}
+
+data "archive_file" "basic_auth_function" {
+  type = "zip"
+  output_path = "${path.module}/functions/basic-auth.zip"
+
+  source {
+    content = "${data.template_file.basic_auth_function.rendered}"
+    filename = "basic-auth.js"
+  }
+}
+
 resource "aws_lambda_function" "basic_auth" {
-  filename         = "${path.module}/functions/lambda-edge-basic-auth-function.zip"
+  filename         = "${path.module}/functions/basic-auth.zip"
   function_name    = "${var.function_name}"
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "basic-auth.handler"
-  source_code_hash = "${base64sha256(file("${path.module}/functions/lambda-edge-basic-auth-function.zip"))}"
+  source_code_hash = "${data.archive_file.basic_auth_function.output_base64sha256}"
   runtime          = "nodejs8.10"
   description      = "Protect CloudFront distributions with Basic Authentication"
   publish          = true
-}
-
-###
-# Secrets
-#
-
-resource "aws_secretsmanager_secret" "basic_auth_credentials" {
-  name_prefix = "lambda-edge-basic-auth-"
-  description = "Secrets for Basic Authentication used by Lambda@Edge"
-}
-
-resource "aws_secretsmanager_secret_version" "basic_auth_credentials" {
-  secret_id     = "${aws_secretsmanager_secret.basic_auth_credentials.id}"
-  secret_string = "${jsonencode(var.basic_auth_credentials)}"
 }

@@ -4,8 +4,8 @@ exports.handler = (event, context, callback) => {
   const request = event.Records[0].cf.request
   const headers = request.headers
 
-  const authUser = 'user'
-  const authPass = 'pass'
+  const authUser = '${user}'
+  const authPass = '${password}'
 
   const encodedCredentials = new Buffer(`${authUser}:${authPass}`).toString('base64')
   const authString = `Basic ${encodedCredentials}`
