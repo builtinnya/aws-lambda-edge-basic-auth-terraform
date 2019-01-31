@@ -62,6 +62,7 @@ resource "aws_lambda_function" "basic_auth" {
   source_code_hash = "${base64sha256(file("${path.module}/functions/lambda-edge-basic-auth-function.zip"))}"
   runtime          = "nodejs8.10"
   description      = "Protect CloudFront distributions with Basic Authentication"
+  publish          = true
 }
 
 ###
