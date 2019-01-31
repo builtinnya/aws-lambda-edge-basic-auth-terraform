@@ -48,7 +48,22 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 }
 ```
 
-## License
+## Arguments and Outputs
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| basic\_auth\_credentials | Credentials for Basic Authentication. Pass a map composed of 'user' and 'password'. | map | n/a | yes |
+| function\_name | Lambda function name | string | `"basicAuth"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| lambda\_arn | Lambda function ARN with version |
+
+# License
 
 Copyright © 2019 Naoto Yokoyama
 

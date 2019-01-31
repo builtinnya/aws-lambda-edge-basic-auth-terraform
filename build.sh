@@ -13,4 +13,5 @@ set -o xtrace
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+docker-compose build dev
 docker-compose run --rm dev npm run build

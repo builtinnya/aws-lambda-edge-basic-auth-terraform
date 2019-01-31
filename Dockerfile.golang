@@ -1,0 +1,23 @@
+FROM golang:1.11
+
+###
+# Set up the working directory
+#
+ENV CODES_DIR /codes
+RUN mkdir -p "${CODES_DIR}"
+WORKDIR "${CODES_DIR}"
+
+###
+# Install utilities
+#
+RUN go get github.com/segmentio/terraform-docs
+
+###
+# Install codes
+#
+COPY . .
+
+###
+# What we need is.. bash!
+#
+CMD [ "bash" ]

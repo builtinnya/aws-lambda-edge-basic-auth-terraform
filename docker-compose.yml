@@ -5,3 +5,10 @@ services:
     volumes:
       - .:/codes/
       - /codes/node_modules
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile.golang
+    command: terraform-docs markdown table ./module
+    volumes:
+      - .:/codes/
