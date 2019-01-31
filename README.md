@@ -120,6 +120,8 @@ To destroy AWS resources created by the above steps, execute the following comma
 $ terraform destroy
 ```
 
+**NOTICE: the above command probably ends up with error. See [Deleting Lambda@Edge Functions and Replicas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-delete-replicas.html) for detail.**
+
 # License
 
 Copyright © 2019 Naoto Yokoyama
