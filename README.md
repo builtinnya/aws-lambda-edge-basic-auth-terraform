@@ -159,6 +159,10 @@ $ ./docs.sh
 
 It shows markdown table of inputs and outputs, same as included in this README.
 
+### Testing
+
+Tests for the handler is located at [`test/`](test/) directory and executed in `build.sh`.
+
 # License
 
 Copyright © 2019 Naoto Yokoyama
