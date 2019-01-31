@@ -30,7 +30,7 @@ EOF
 #
 
 resource "aws_iam_role_policy" "lambda" {
-  role = "${aws_iam_role.lambda}"
+  role = "${aws_iam_role.lambda.id}"
 
   policy = <<EOF
 {
@@ -55,13 +55,13 @@ EOF
 #
 
 resource "aws_lambda_function" "basic_auth" {
-  filename = "${path.module}/functions/lambda-edge-basic-auth-function.zip"
-  function_name = "${var.function_name}"
-  role = "${aws_iam_role.lambda}"
-  handler = "basic-auth.handler"
+  filename         = "${path.module}/functions/lambda-edge-basic-auth-function.zip"
+  function_name    = "${var.function_name}"
+  role             = "${aws_iam_role.lambda.arn}"
+  handler          = "basic-auth.handler"
   source_code_hash = "${base64sha256(file("${path.module}/functions/lambda-edge-basic-auth-function.zip"))}"
-  runtime = "nodejs8.10"
-  description = "Protect CloudFront distributions with Basic Authentication"
+  runtime          = "nodejs8.10"
+  description      = "Protect CloudFront distributions with Basic Authentication"
 }
 
 ###
@@ -74,6 +74,6 @@ resource "aws_secretsmanager_secret" "basic_auth_credentials" {
 }
 
 resource "aws_secretsmanager_secret_version" "basic_auth_credentials" {
-  secret_id = "${aws_secretsmanager_secret.basic_auth_credentials.id}"
+  secret_id     = "${aws_secretsmanager_secret.basic_auth_credentials.id}"
   secret_string = "${jsonencode(var.basic_auth_credentials)}"
 }
