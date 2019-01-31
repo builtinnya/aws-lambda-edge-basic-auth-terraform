@@ -1,0 +1,9 @@
+aws_access_key = ""
+aws_secret_key = ""
+region = ""
+s3_bucket_name = ""
+
+basic_auth_credentials = {
+  "user" = ""
+  "password" = ""
+}
