@@ -1,7 +1,7 @@
 {
   "name": "aws-lambda-edge-basic-auth-terraform",
   "version": "0.0.0",
-  "description": "A Terraform module that creates AWS Lambda@Edge resources to perform BASIC Authentication",
+  "description": "A Terraform module that creates AWS Lambda@Edge resources to perform Basic Authentication",
   "scripts": {
     "build": "npx gulp",
     "clean": "npx gulp clean",
