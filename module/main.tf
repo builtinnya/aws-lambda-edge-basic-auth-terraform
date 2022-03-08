@@ -55,8 +55,8 @@ EOF
 #
 
 data "template_file" "basic_auth_function" {
-  template = "${file("${path.module}/functions/basic-auth.js")}"
-  vars = "${var.basic_auth_credentials}"
+  template = file("${path.module}/functions/basic-auth.js")
+  vars = var.basic_auth_credentials
 }
 
 data "archive_file" "basic_auth_function" {
@@ -71,10 +71,10 @@ data "archive_file" "basic_auth_function" {
 
 resource "aws_lambda_function" "basic_auth" {
   filename         = "${path.module}/functions/basic-auth.zip"
-  function_name    = "${var.function_name}"
-  role             = "${aws_iam_role.lambda.arn}"
+  function_name    = var.function_name
+  role             = aws_iam_role.lambda.arn
   handler          = "basic-auth.handler"
-  source_code_hash = "${data.archive_file.basic_auth_function.output_base64sha256}"
+  source_code_hash = data.archive_file.basic_auth_function.output_base64sha256
   runtime          = "nodejs12.x"
   description      = "Protect CloudFront distributions with Basic Authentication"
   publish          = true
