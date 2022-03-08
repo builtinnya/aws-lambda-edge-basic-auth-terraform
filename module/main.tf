@@ -30,7 +30,7 @@ EOF
 #
 
 resource "aws_iam_role_policy" "lambda" {
-  role = "${aws_iam_role.lambda.id}"
+  role = aws_iam_role.lambda.id
 
   policy = <<EOF
 {
@@ -55,8 +55,8 @@ EOF
 #
 
 data "template_file" "basic_auth_function" {
-  template = "${file("${path.module}/functions/basic-auth.js")}"
-  vars = "${var.basic_auth_credentials}"
+  template = file("${path.module}/functions/basic-auth.js")
+  vars = var.basic_auth_credentials
 }
 
 data "archive_file" "basic_auth_function" {
@@ -64,17 +64,17 @@ data "archive_file" "basic_auth_function" {
   output_path = "${path.module}/functions/basic-auth.zip"
 
   source {
-    content = "${data.template_file.basic_auth_function.rendered}"
+    content = data.template_file.basic_auth_function.rendered
     filename = "basic-auth.js"
   }
 }
 
 resource "aws_lambda_function" "basic_auth" {
   filename         = "${path.module}/functions/basic-auth.zip"
-  function_name    = "${var.function_name}"
-  role             = "${aws_iam_role.lambda.arn}"
+  function_name    = var.function_name
+  role             = aws_iam_role.lambda.arn
   handler          = "basic-auth.handler"
-  source_code_hash = "${data.archive_file.basic_auth_function.output_base64sha256}"
+  source_code_hash = data.archive_file.basic_auth_function.output_base64sha256
   runtime          = "nodejs12.x"
   description      = "Protect CloudFront distributions with Basic Authentication"
   publish          = true
