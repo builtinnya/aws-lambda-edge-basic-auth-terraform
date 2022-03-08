@@ -30,7 +30,7 @@ EOF
 #
 
 resource "aws_iam_role_policy" "lambda" {
-  role = "${aws_iam_role.lambda.id}"
+  role = aws_iam_role.lambda.id
 
   policy = <<EOF
 {
