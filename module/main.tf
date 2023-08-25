@@ -59,7 +59,7 @@ data "archive_file" "basic_auth_function" {
   output_path = "${path.module}/functions/basic-auth.zip"
 
   source {
-    content  = data.template_file.basic_auth_function.rendered
+    content  = file("${path.module}/functions/basic-auth.js")
     filename = "basic-auth.js"
   }
 }
