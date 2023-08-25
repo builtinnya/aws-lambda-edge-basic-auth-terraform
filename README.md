@@ -63,6 +63,12 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 |------|-------------|
 | lambda\_arn | Lambda function ARN with version |
 
+## Hashing Credentials
+
+```shell
+echo -n 'username' | openssl dgst -sha256 -binary | base64
+echo -n 'password' | openssl dgst -sha256 -binary | base64
+```
 ## Examples
 
 ### Minimal
