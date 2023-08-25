@@ -30,7 +30,7 @@ EOF
 #
 
 resource "aws_iam_role_policy" "lambda" {
-  role = "${aws_iam_role.lambda.id}"
+  role = aws_iam_role.lambda.id
 
   policy = <<EOF
 {
@@ -54,28 +54,29 @@ EOF
 # Lambda functions
 #
 
-data "template_file" "basic_auth_function" {
-  template = "${file("${path.module}/functions/basic-auth.js")}"
-  vars = "${var.basic_auth_credentials}"
-}
-
 data "archive_file" "basic_auth_function" {
-  type = "zip"
+  type        = "zip"
   output_path = "${path.module}/functions/basic-auth.zip"
 
   source {
-    content = "${data.template_file.basic_auth_function.rendered}"
+    content  = data.template_file.basic_auth_function.rendered
     filename = "basic-auth.js"
   }
 }
 
 resource "aws_lambda_function" "basic_auth" {
   filename         = "${path.module}/functions/basic-auth.zip"
-  function_name    = "${var.function_name}"
-  role             = "${aws_iam_role.lambda.arn}"
+  function_name    = var.function_name
+  role             = aws_iam_role.lambda.arn
   handler          = "basic-auth.handler"
-  source_code_hash = "${data.archive_file.basic_auth_function.output_base64sha256}"
-  runtime          = "nodejs12.x"
+  source_code_hash = data.archive_file.basic_auth_function.output_base64sha256
+  runtime          = "nodejs18.x"
   description      = "Protect CloudFront distributions with Basic Authentication"
   publish          = true
+  environment {
+    variables = {
+      BASIC_AUTH_HASHED_USER = var.basic_auth_hashed_username
+      BASIC_AUTH_HASHED_PASS = var.basic_auth_hashed_password
+    }
+  }
 }

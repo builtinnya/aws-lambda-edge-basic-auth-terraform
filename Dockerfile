@@ -1,4 +1,4 @@
-FROM node:8.10
+FROM node:18
 
 ###
 # Set up the working directory

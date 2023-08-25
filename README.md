@@ -25,7 +25,7 @@ module "basic_auth" {
 
   basic_auth_credentials = {
     user     = "your-username"
-    password = "your-password"
+    hashed_password = "your-hashed_password"
   }
 
   # All Lambda@Edge functions must be put on us-east-1.
@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| basic\_auth\_credentials | Credentials for Basic Authentication. Pass a map composed of 'user' and 'password'. | map | n/a | yes |
+| basic\_auth\_credentials | Credentials for Basic Authentication. Pass a map composed of 'user' and 'hashed_password'. | map | n/a | yes |
 | function\_name | Lambda function name | string | `"basicAuth"` | no |
 
 ## Outputs
@@ -92,7 +92,7 @@ The minimal example is located at [examples/minimal](examples/minimal) . It crea
 
     basic_auth_credentials = {
       "user" = "<Basic Auth Username>"
-      "password" = "<Basic Auth Password>"
+      "hashed_password" = "<Basic Auth hashed_password>"
     }
     ```
 

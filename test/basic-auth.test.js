@@ -95,8 +95,8 @@ describe('Basic Auth', function() {
                 headers: {
                   authorization: [
                     {
-                      // new Buffer('${user}:${password}').toString('base64')
-                      value: 'Basic JHt1c2VyfToke3Bhc3N3b3JkfQ==',
+                      // new Buffer('user:password').toString('base64')
+                      value: "Basic dXNlcjpwYXNzd29yZA==",
                     },
                   ],
                 },
@@ -104,7 +104,7 @@ describe('Basic Auth', function() {
             },
           },
         ],
-      }
+      };
 
       const callback = sinon.fake()
 
