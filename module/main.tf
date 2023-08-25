@@ -30,7 +30,7 @@ EOF
 #
 
 resource "aws_iam_role_policy" "lambda" {
-  role = aws_iam_role.lambda.id
+  role = "${aws_iam_role.lambda.id}"
 
   policy = <<EOF
 {
@@ -54,12 +54,17 @@ EOF
 # Lambda functions
 #
 
+data "template_file" "basic_auth_function" {
+  template = "${file("${path.module}/functions/basic-auth.js")}"
+  vars = "${var.basic_auth_credentials}"
+}
+
 data "archive_file" "basic_auth_function" {
-  type        = "zip"
+  type = "zip"
   output_path = "${path.module}/functions/basic-auth.zip"
 
   source {
-    content  = file("${path.module}/functions/basic-auth.js")
+    content = "${data.template_file.basic_auth_function.rendered}"
     filename = "basic-auth.js"
   }
 }

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npx gulp",
     "clean": "npx gulp clean",
-    "test": "BASIC_AUTH_HASHED_PASS='XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=' BASIC_AUTH_HASHED_USER=BPiZbadjt6lpsQKO4wB1aerzpjVIbdqyEdUSyFud+Ps= npx mocha"
+    "test": "./test.sh"
   },
   "repository": {
     "type": "git",

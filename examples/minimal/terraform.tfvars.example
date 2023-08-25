@@ -4,6 +4,6 @@ region = ""
 s3_bucket_name = ""
 
 basic_auth_credentials = {
-  "user" = ""
+  "hashed_username" = ""
   "hashed_password" = ""
 }

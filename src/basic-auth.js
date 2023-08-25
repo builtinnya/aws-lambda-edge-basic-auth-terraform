@@ -33,9 +33,6 @@ exports.handler = (event, context, callback) => {
 
   const [authUser, authPass] = decodedCredentials.split(":");
 
-  console.log("authUser: " + authUser);
-  console.log("authPass: " + authPass);
-
   const hashedPass = crypto
     .createHash("sha256")
     .update(authPass)
@@ -46,13 +43,8 @@ exports.handler = (event, context, callback) => {
     .update(authUser)
     .digest("base64");
 
-  const expectedPasswordHash = process.env.BASIC_AUTH_HASHED_PASS;
-  const expectedUsernameHash = process.env.BASIC_AUTH_HASHED_USER;
-
-  console.log("expectedPasswordHash: " + expectedPasswordHash);
-  console.log("expectedUsernameHash: " + expectedUsernameHash);
-  console.log("hashedPass: " + hashedPass);
-  console.log("hashedUser: " + hashedUser);
+  const expectedPasswordHash = '${hashed_username}';
+  const expectedUsernameHash = '${hashed_password}';
 
   if (
     hashedUser !== expectedUsernameHash ||
