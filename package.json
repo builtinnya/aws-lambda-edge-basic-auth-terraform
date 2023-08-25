@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npx gulp",
     "clean": "npx gulp clean",
-    "test": "./test.sh"
+    "test": "./test.sh",
+    "test-docker": "./test_docker.sh"
   },
   "repository": {
     "type": "git",
