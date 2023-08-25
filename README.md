@@ -24,8 +24,8 @@ module "basic_auth" {
   source = "github.com/builtinnya/aws-lambda-edge-basic-auth-terraform/module"
 
   basic_auth_credentials = {
-    user     = "your-username"
-    hashed_password = "your-hashed_password"
+    hashed_username     = "your-hashed-username"
+    hashed_username     = "your-hashed_password"
   }
 
   # All Lambda@Edge functions must be put on us-east-1.
@@ -91,8 +91,8 @@ The minimal example is located at [examples/minimal](examples/minimal) . It crea
     s3_bucket_name = "<S3 bucket name to create>"
 
     basic_auth_credentials = {
-      "user" = "<Basic Auth Username>"
-      "hashed_password" = "<Basic Auth hashed_password>"
+      "hashed_username" = "<SHA256 Hashed Basic Auth Username>"
+      "hashed_username" = "<SHA256 Hashed Basic Auth hashed_password>"
     }
     ```
 
