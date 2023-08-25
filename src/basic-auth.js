@@ -43,8 +43,8 @@ exports.handler = (event, context, callback) => {
     .update(authUser)
     .digest("base64");
 
-  const expectedPasswordHash = '${hashed_username}';
-  const expectedUsernameHash = '${hashed_password}';
+  const expectedPasswordHash = "${hashed_password}";
+  const expectedUsernameHash = "${hashed_username}";
 
   if (
     hashedUser !== expectedUsernameHash ||
