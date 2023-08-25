@@ -19,6 +19,6 @@ variable "s3_bucket_name" {
 }
 
 variable "basic_auth_credentials" {
-  type        = map
+  type        = map(any)
   description = "Credentials for Basic Authentication. Pass a map composed of 'user' and 'hashed_password'."
 }

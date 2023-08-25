@@ -5,6 +5,6 @@ variable "function_name" {
 }
 
 variable "basic_auth_credentials" {
-  type        = map
+  type        = map(any)
   description = "Credentials for Basic Authentication. Pass a map composed of 'hashed_username' and 'hashed_password'."
 }
