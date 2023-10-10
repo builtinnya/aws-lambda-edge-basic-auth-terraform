@@ -3,15 +3,15 @@
 #
 
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-  region     = "${var.region}"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  region     = var.region
 }
 
 provider "aws" {
   alias      = "us-east-1"
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
   region     = "us-east-1"
 }
 
@@ -21,7 +21,7 @@ provider "aws" {
 
 module "basic_auth" {
   source                 = "../../module"
-  basic_auth_credentials = "${var.basic_auth_credentials}"
+  basic_auth_credentials = var.basic_auth_credentials
 
   # All Lambda@Edge functions must be put on us-east-1.
   providers = {
@@ -34,7 +34,7 @@ module "basic_auth" {
 #
 
 resource "aws_s3_bucket" "test" {
-  bucket = "${var.s3_bucket_name}"
+  bucket = var.s3_bucket_name
   acl    = "private"
 
   policy = <<EOF
@@ -57,11 +57,11 @@ EOF
 }
 
 resource "aws_s3_bucket_object" "test" {
-  bucket       = "${aws_s3_bucket.test.id}"
+  bucket       = aws_s3_bucket.test.id
   key          = "index.html"
   source       = "index.html"
   content_type = "text/html"
-  etag         = "${md5(file("index.html"))}"
+  etag         = md5(file("index.html"))
 }
 
 ###
@@ -72,11 +72,11 @@ resource "aws_cloudfront_origin_access_identity" "test" {}
 
 resource "aws_cloudfront_distribution" "test" {
   origin {
-    domain_name = "${aws_s3_bucket.test.bucket_regional_domain_name}"
+    domain_name = aws_s3_bucket.test.bucket_regional_domain_name
     origin_id   = "S3-${aws_s3_bucket.test.id}"
 
     s3_origin_config {
-      origin_access_identity = "${aws_cloudfront_origin_access_identity.test.cloudfront_access_identity_path}"
+      origin_access_identity = aws_cloudfront_origin_access_identity.test.cloudfront_access_identity_path
     }
   }
 
@@ -104,7 +104,7 @@ resource "aws_cloudfront_distribution" "test" {
 
     lambda_function_association {
       event_type   = "viewer-request"
-      lambda_arn   = "${module.basic_auth.lambda_arn}"
+      lambda_arn   = module.basic_auth.lambda_arn
       include_body = false
     }
   }

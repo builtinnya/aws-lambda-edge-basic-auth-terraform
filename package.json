@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npx gulp",
     "clean": "npx gulp clean",
-    "test": "npx mocha"
+    "test": "./test.sh",
+    "test-docker": "./test_docker.sh"
   },
   "repository": {
     "type": "git",
@@ -18,16 +19,17 @@
   },
   "homepage": "https://github.com/builtinnya/aws-lambda-edge-basic-auth-terraform#readme",
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "chai": "^4.2.0",
-    "gulp": "^4.0.0",
+    "@babel/core": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "chai": "^4.3.8",
+    "crypto": "^1.0.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-cli": "^2.0.1",
+    "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^3.0.1",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^7.2.3"
+    "gulp-uglify": "^3.0.2",
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.1",
+    "sinon": "^15.2.0"
   }
 }

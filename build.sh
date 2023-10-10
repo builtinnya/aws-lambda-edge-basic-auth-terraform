@@ -14,5 +14,5 @@ set -o xtrace
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 docker-compose build dev
-docker-compose run --rm dev npm test
+docker-compose run --rm dev npm run test-docker -- /codes/src/basic-auth.js
 docker-compose run --rm dev npm run build

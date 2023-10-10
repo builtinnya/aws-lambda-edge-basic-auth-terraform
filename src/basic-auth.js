@@ -1,37 +1,74 @@
-'use strict'
+"use strict";
+const crypto = require("crypto");
 
 exports.handler = (event, context, callback) => {
-  const request = event.Records[0].cf.request
-  const headers = request.headers
+  const request = event.Records[0].cf.request;
+  const headers = request.headers;
 
-  const authUser = '${user}'
-  const authPass = '${password}'
+  const authHeader = headers.authorization && headers.authorization[0].value;
 
-  const encodedCredentials = new Buffer(`${authUser}:${authPass}`).toString('base64')
-  const authString = `Basic ${encodedCredentials}`
+  if (!authHeader) {
+    const response = {
+      status: "401",
+      statusDescription: "Unauthorized",
+      body: "Unauthorized",
+      headers: {
+        "www-authenticate": [
+          {
+            key: "WWW-Authenticate",
+            value: "Basic",
+          },
+        ],
+      },
+    };
+
+    callback(null, response);
+    return;
+  }
+
+  const encodedCredentials = authHeader.split(" ")[1];
+  const decodedCredentials = Buffer.from(encodedCredentials, "base64").toString(
+    "utf-8"
+  );
+
+  const [authUser, authPass] = decodedCredentials.split(":");
+
+  const hashedPass = crypto
+    .createHash("sha256")
+    .update(authPass)
+    .digest("base64");
+
+  const hashedUser = crypto
+    .createHash("sha256")
+    .update(authUser)
+    .digest("base64");
+
+  const expectedPasswordHash = "${hashed_password}";
+  const expectedUsernameHash = "${hashed_username}";
 
   if (
-    typeof headers.authorization == 'undefined' ||
-    headers.authorization[0].value != authString
+    hashedUser !== expectedUsernameHash ||
+    hashedPass !== expectedPasswordHash ||
+    !authHeader
   ) {
     const response = {
-      status: '401',
-      statusDescription: 'Unauthorized',
-      body: 'Unauthorized',
+      status: "401",
+      statusDescription: "Unauthorized",
+      body: "Unauthorized",
       headers: {
-        'www-authenticate': [
+        "www-authenticate": [
           {
-            key: 'WWW-Authenticate',
-            value: 'Basic',
-          }
-        ]
+            key: "WWW-Authenticate",
+            value: "Basic",
+          },
+        ],
       },
-    }
+    };
 
-    callback(null, response)
-    return
+    callback(null, response);
+    return;
   }
 
   // Continue request processing if authentication passed
-  callback(null, request)
-}
+  callback(null, request);
+};

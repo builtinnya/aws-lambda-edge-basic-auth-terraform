@@ -24,8 +24,8 @@ module "basic_auth" {
   source = "github.com/builtinnya/aws-lambda-edge-basic-auth-terraform/module"
 
   basic_auth_credentials = {
-    user     = "your-username"
-    password = "your-password"
+    hashed_username     = "your-hashed-username"
+    hashed_password     = "your-hashed_password"
   }
 
   # All Lambda@Edge functions must be put on us-east-1.
@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| basic\_auth\_credentials | Credentials for Basic Authentication. Pass a map composed of 'user' and 'password'. | map | n/a | yes |
+| basic\_auth\_credentials | Credentials for Basic Authentication. Pass a map composed of 'user' and 'hashed_password'. | map | n/a | yes |
 | function\_name | Lambda function name | string | `"basicAuth"` | no |
 
 ## Outputs
@@ -63,6 +63,12 @@ resource "aws_cloudfront_distribution" "your_distribution" {
 |------|-------------|
 | lambda\_arn | Lambda function ARN with version |
 
+## Hashing Credentials
+
+```shell
+echo -n 'username' | openssl dgst -sha256 -binary | base64
+echo -n 'password' | openssl dgst -sha256 -binary | base64
+```
 ## Examples
 
 ### Minimal
@@ -91,8 +97,8 @@ The minimal example is located at [examples/minimal](examples/minimal) . It crea
     s3_bucket_name = "<S3 bucket name to create>"
 
     basic_auth_credentials = {
-      "user" = "<Basic Auth Username>"
-      "password" = "<Basic Auth Password>"
+      "hashed_username" = "<SHA256 Hashed and Base64 encoded  Basic Auth Username>"
+      "hashed_password" = "<SHA256 Hashed and Base64 encoded  Basic Auth password>"
     }
     ```
 
