@@ -75,7 +75,7 @@ resource "aws_lambda_function" "basic_auth" {
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "basic-auth.handler"
   source_code_hash = "${data.archive_file.basic_auth_function.output_base64sha256}"
-  runtime          = "nodejs12.x"
+  runtime          = "nodejs18.x"
   description      = "Protect CloudFront distributions with Basic Authentication"
   publish          = true
 }
